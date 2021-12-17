@@ -1,0 +1,31 @@
+#include <SHVBLOCK>
+#include <IRXEXTE>
+#include <IRXENVB>
+#include <EVALBLOC>
+#include <REXPARMS>
+int CRexxDrop(ENVBLOCK *pEnv,char * pSymbol){
+
+  char dummy;
+  OSFUNC * fptr;
+  SHVBLOCK  shv;
+  memset(&shv,0,sizeof(shv));
+  shv. SHVCODE = SHVDROPV; //   Drop  symbol
+  shv. SHVNAMA =  pSymbol; // a symbolic name
+  shv. SHVNAML =  strlen(pSymbol); // Len symbolic name
+  int rc,rc3;
+  fptr  =  pEnv-> ENVBLOCK_IRXEXTE -> IRXEXCOM;
+  rc = (*fptr)("IRXEXCOM",
+               &dummy,
+               &dummy,
+               &shv,
+               0   , // indicate envblock not used
+               rc3);
+  int rc2 =  shv.SHVRET;
+  if ( rc != 0)
+  printf("CRexDrop IRXEXCOM rc %i rc3 %i shnvrc %i\n",rc,rc3,rc2);
+  if (rc2        != 0)
+     return   rc2       ;
+  if (rc != 0)
+     return rc;
+   return  0;
+}

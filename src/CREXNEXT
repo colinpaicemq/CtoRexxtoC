@@ -1,0 +1,50 @@
+
+#include <SHVBLOCK>
+#include <IRXEXTE>
+#include <IRXENVB>
+#include <EVALBLOC>
+#include <REXPARMS>
+int CRexxNext(ENVBLOCK *pEnv,char * pName  ,int lName,
+                             char * pBuffer,int lBuffer
+  ){
+  char dummy;
+  OSFUNC * fptr;
+  SHVBLOCK  shv;
+  memset(&shv,0,sizeof(shv));
+  shv. SHVCODE = SHVNEXTV; //  Next symbol
+  shv. SHVNAMA =  pName  ; // a symbolic name
+  shv. SHVUSER =  lName  ; // Len symbolic name
+  shv. SHVVALA =  pBuffer; // a symbolic name
+  shv. SHVBUFL =  lBuffer; // Len symbolic name
+  int rc,rc3;
+  fptr  =  pEnv-> ENVBLOCK_IRXEXTE -> IRXEXCOM;
+  rc = (*fptr)("IRXEXCOM",
+               &dummy,
+               &dummy,
+               &shv,
+               0   , // indicate envblock not used
+               rc3);
+  int rc2 =  shv.SHVRET;
+//printf("CRexNext IRXEXCOM rc %i rc3 %i shnvrc %i\n",rc,rc3,rc2);
+  if ( rc != 0 ) return rc;
+  if (rc2 != 0) return rc2; // Last variable transferred?
+  int ln= shv.SHVNAML;
+  if (ln> lName  )             // value too long
+    {
+      printf("CREXNext Name length %i name buffer size %i\n",
+           ln         , lName );
+      return 16;
+    }
+  int lv = shv. SHVVALL ;
+  if (lv >= lBuffer )
+    {
+      printf("CREXNext Value length %i>  buf size %i\n",
+           lv        , lName );
+      return 16;
+    }
+
+  pName[ln] = 0; // set trailing nulll
+  pBuffer[lv]= 0; // set trailing nulll
+  return 0;
+
+}

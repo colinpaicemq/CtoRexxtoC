@@ -1,0 +1,10 @@
+#ifndef rxPARMS
+#define rxPARMS
+typedef struct rexParms
+{
+   char * data;
+   int lData ;   // size of string
+   //  The last element has an address of 0xfffffff and a data length of
+   //  0xffffffff = -1;
+ } rexParms ;
+#endif

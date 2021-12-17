@@ -1,0 +1,11 @@
+#ifndef rxEVALBLOCK
+#define rxEVALBLOCK
+typedef struct EVALBLOCK
+{
+   int reserver0;
+   int evsize;   // total size in double words
+   int evlen;    // length of returned data
+   int evpad2;   // not used
+   char evdata[0];// returned value
+ } evalblock;
+#endif

@@ -1,0 +1,41 @@
+#ifndef  rxENVBLOCK                                                     00001000
+#define  rxENVBLOCK                                                     00002000
+typedef struct ENVBLOCK {                                               00010000
+  char ENVBLOCK_ID[8];       //    ENVBLOCK identifier 'ENVBLOCK'       00020000
+  int  ENVBLOCK_VERSION;     //      Version number                     00030000
+  int  ENVBLOCK_LENGTH;      //  Length of ENVBLOCK                     00040000
+  char * ENVBLOCK_PARMBLOCK; //   Address of the PARMBLOCK              00050000
+  char * ENVBLOCK_USERFIELD ;//  Address of the user field              00060000
+  char * ENVBLOCK_WORKBLOK_EXT;//          Address of the current       00070000
+  IRXEXTE * ENVBLOCK_IRXEXTE;//     Address of IRXEXTE                  00080000
+  // ENVBLOCK_ERROR         0CL256          Error information           00090000
+  char * ERROR_CALL@  ;      //   Address of the routine in error       00100000
+  int  reserved1 ;           //              Reserved                   00110000
+  char ERROR_MSGID[8]  ;     //  Message identifier of first call       00120000
+  char PRIMARY_ERROR_MESSAGE[80] ; //  Error message                    00130000
+  char ALTERNATE_ERROR_MSG[160];   //  Extended error message           00140000
+  char * ENVBLOCK_COMPGMTB;  // Address of the Compiler                 00150000
+  //*                                      Programming Table            00160000
+  char * ENVBLOCK_ATTNROUT_PARMPTR; //     Address of a parameter       00170000
+  //                                     passed to the user's ATTNROUT  00180000
+  //                                     routine from the REXX attention00190000
+  //                                     routine. Used for communication00200000
+  //                                     between the user's ATTNROUT    00210000
+  //                                     routine and the REXX attention 00220000
+  //                                     routine.                       00230000
+  char * ENVBLOCK_ECTPTR; //          Address of the ECT under which    00240000
+  //                                     an environment that is         00250000
+  //                                     integrated with TSO/E is       00260000
+  //                                     anchored.                      00270000
+  //VBLOCK_INFO_FLAGS    0BL4            Information flags              00280000
+  char ENVBLOCK_INFO_FLAG1 ;//      Information byte 1                  00290000
+  // ENVBLOCK_TERMA_CLEANUP EQU X'80'       Flag to indicate that       00300000
+  //                                     IRXTERMA is in control to      00310000
+  //                                     FREE active execs and possibly 00320000
+  //                                     to cleanup the ENVBLOCK        00330000
+  //                                     itself                         00340000
+  char reserved2[3];   //           Reserved                            00350000
+  int ENVBLOCK_USS_REXX; //             Word reserved for USS REXX      00360000
+  int reserved3[3]; //                   Reserved                       00370000
+} ENVBLOCK ;                                                            00380000
+#endif                                                                  00390000

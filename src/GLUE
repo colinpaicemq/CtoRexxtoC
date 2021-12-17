@@ -1,0 +1,67 @@
+GLUE CSECT
+GLUE AMODE ANY
+GLUE RMODE ANY
+         STM   R14,R12,12(R13)
+         J     OVEREYE
+         DC    CL8'CP GLUE '
+         DC    C'&systime'
+OVEREYE  DS    0H
+* Save   R0 and R1
+         LR    R8,R0
+         LR    R9,R1
+         LR    R12,R15
+         USING GLUE,R12
+* This resets R1 etc
+         GETMAIN R,LV=DSALEN
+         ST    R13,4(,R1)
+         LR    R13,R1
+         USING DSA,R13
+*        LR    R1,R8
+* first 2 words need to be zero
+*        sr    R2,r2
+*        St    r2,parmlist
+*        St    r2,parmlist+4
+* ignore the first 4 fields
+         L     R3,16(R9)  a(Parmlist)
+         ST    R3,Parmlist+0
+         L     R3,20(R9)  a(evalblk)
+         L     R3,0(R3)
+         ST    R3,Parmlist+4
+* save original R0
+         ST    R8,PARMLIST+08  A(env block)
+         OI    PARMLIST+08,X'80' Setlast parameter
+         LA    R1,parmlist
+         L     R15,=V(CTOREXX)
+         SR    R0,R0
+         BALR  R14,R15
+* undo the save area
+         LR    R1,R13
+         L      R13,4(0,R13)
+         FREEMAIN R,A=(1),LV=DSALEN
+* dont restore R15
+         L  R14,12(R13)
+         LM 0,R12,20(R13)
+* go back
+         BR R14
+         LTORG
+DSA      DSECT , The dynamic storage area
+SAVEAREA DS 18A The save area
+PARMLIST DS 4A
+DSALEN   EQU *-DSA
+R0       EQU 0
+R1       EQU 1
+R2       EQU 2
+R3       EQU 3
+R4       EQU 4
+R5       EQU 5
+R6       EQU 6
+R7       EQU 7
+R8       EQU 8
+R9       EQU 9
+R10      EQU 10
+R11      EQU 11
+R12      EQU 12
+R13      EQU 13
+R14      EQU 14
+R15      EQU 15
+         END GLUE

@@ -1,0 +1,85 @@
+#pragma environment(CTOREXX)
+#pragma linkage(OSFUNC,OS)
+#pragma csect (CODE, "CTOREXXC")
+#include <string.h>
+#include <stdio.h>
+typedef int OSFUNC();
+// rexx includes
+#include <CREXGET>
+#include <CREXPUT>
+#include <CREXNEXT>
+#include <CREXDROP>
+
+
+int  CTOREXX(rexParms * p,  evalblock * pEval, ENVBLOCK *pEnv )  {
+  int rc = 0;
+  #define PARMLEN 40
+  char parm[PARMLEN];
+  int lParm = PARMLEN;
+  #define BUFFLEN 40
+  char buffer[BUFFLEN];
+  int lBuffer = BUFFLEN;
+  #define NAMELEN 400
+  char name[NAMELEN];
+  int lName = NAMELEN;
+
+  parm[0]=0 ;// zero length string
+  int i;
+
+  // extract the parameters
+  for (i = 1;;    i++)
+  {
+    int l = p-> lData;
+    if ( l < 0) break;
+    // save the first parameter
+    if (i == 1)
+    {
+      if (l <lParm);
+      memcpy(&parm[0],p->data,l);
+      parm[l]=0;
+    }
+    printf("Parm%i:%*.*s\n",i,l,l,p->data);
+    p++;
+  }
+  //////////
+  // demo the next ...
+  //////////
+  if (strlen(parm) > 0)
+  {
+    for (int j = 1;j<20;j++)
+      {
+        rc = CRexxNext(pEnv,&name[0],lName,&buffer[0],lBuffer);
+        if (rc != 0)
+        {
+          printf("CRexxNext rc=%i\n",rc);
+          break;
+        }
+        else printf("Symbol %s:%s\n",name,buffer);
+        if (strncmp(parm,name,strlen(parm))== 0 )
+           printf("==> Matches requested %s %s\n",parm,name);
+      }
+  }
+  ///////////////////////////////////
+  rc = CRexxDrop(pEnv,"ZDROP");
+  printf("Drop rc %i\n",rc);
+
+  ///////////////////////////////////
+  rc = CRexxGet(pEnv,"ZZZZZ",&buffer[0],&lBuffer);
+  printf("Get rc %i lBuffer %i\n",rc,lBuffer);
+  if ( rc == 0)
+    printf("Value %s\n",buffer);
+
+  ///////////////////////////////////
+  char * var = "CPPUT";
+  rc = CRexxPut(pEnv,var,"Colinsv",0);
+  char * action;
+  if ( rc == 0) action = "replaced";
+  else if ( rc ==1 ) action = "added";
+  else action = "unknown action";
+  printf("CRExxPut %s %s rc %i lBuffer %i\n",action,var,
+          rc,lBuffer);
+  // return a value
+  strcpy(&pEval -> evdata[0], "COLINRC");
+   pEval -> evlen = 7;
+   return  4;
+}

@@ -1,0 +1,59 @@
+#ifndef  rxIRXEXTE
+#define  rxIRXEXTE
+typedef struct IRXEXTE {
+//XEXTE  DSECT                         REXX Vector of External
+//                                     Entry Points
+int IRXEXTE_ENTRY_COUNT;     //       Number of entry points in the
+                             //        REXX Vector of External Entry
+                             //        Points
+OSFUNC * IRXINIT ;           //        IRXINIT - REXX Initialization
+//                           //        Routine
+OSFUNC * LOAD_ROUTINE ;      //        LOAD_ROUTINE - REXX Load Exec
+//                           //        Routine
+OSFUNC * IRXLOAD ;           //        IRXLOAD - Default REXX Load Exec
+//                           //        Routine
+OSFUNC * IRXEXCOM;           //        IRXEXCOM - REXX Variable Access
+//                           //        Routine
+OSFUNC * IRXEXEC ;           //        IRXEXEC - REXX Run Exec Routine
+OSFUNC * IO_ROUTINE ;        //        IO_ROUTINE - REXX Input/Output
+//                           //        Routine
+OSFUNC * IRXINOUT ;          //        IRXINOUT - Default REXX
+//                           //        Input/Output Routine
+OSFUNC * IRXJCL ;            //        IRXJCL - REXX JCL Routine
+OSFUNC * IRXRL ;             //        IRXRLT - REXX Get Result Routine
+OSFUNC * STACK_ROUTINE ;     //        STACK_ROUTINE - REXX Data Stack
+//                           //        Handling Routine
+OSFUNC * IRXSTK ;            //        IRXSTK - Default REXX Data Stack
+//                           //        Handling Routine
+OSFUNC * IRXSUBCM ;          //        IRXSUBCM - REXX Subcommand
+//                           //        Service Routine
+OSFUNC * IRXTERM ;           //        IRXTERM - REXX Termination
+//                           //        Routine
+OSFUNC * IRXIC ;             //        IRXIC - REXX Immediate Commands
+//                           //        Routine
+OSFUNC * MSGID_ROUTINE ;     //        MSGID_ROUTINE - REXX Message ID
+//                           //        Routine
+OSFUNC * IRXMSGID ;          //        IRXMSGID - Default REXX Message
+//                           //        ID Routine
+OSFUNC * USERID_ROUTINE ;    //        USERID_ROUTINE - REXX User ID
+//                           //        Routine
+OSFUNC * IRXUID ;            //        IRXUID - Default REXX User ID
+//                           //        Routine
+OSFUNC * IRXTERMA ;          //        IRXTERMA - REXX Abnormal
+//                           //        Termination Routine
+OSFUNC * IRXSAY ;            //        IRXSAY - REXX SAY      @E23X2BJ
+//                           //        Instruction Routine    @E23X2BJ
+OSFUNC * IRXERS ;            //        IRXERS - REXX External @E23X2BJ
+//                           //        Routine Search Routine @E23X2BJ
+OSFUNC * IRXHST ;            //        IRXHST - REXX Host     @E23X2BJ
+//                           //        Command Search Routine @E23X2BJ
+OSFUNC * IRXHLT ;            //        IRXHLT - REXX Halt     @E23X2BJ
+//                           //        Condition Routine      @E23X2BJ
+OSFUNC * IRXTXT ;            //        IRXTXT - REXX Text     @E23X2BJ
+//                           //        Retrieval Routine      @E23X2BJ
+OSFUNC * IRXLIN ;            //        IRXLIN - REXX LINESIZE @E23X2BJ
+//                           //        Routine                @E23X2BJ
+OSFUNC * IRXRTE ;            //        IRXRTE - REXX Exit     @E23X2BJ
+//                           //        Routing Routine        @E23X2BJ
+} IRXEXTE;
+#endif

@@ -1,0 +1,35 @@
+#include <SHVBLOCK>
+#include <IRXEXTE>
+#include <IRXENVB>
+#include <EVALBLOC>
+#include <REXPARMS>
+int CRexxPut(ENVBLOCK *pEnv,char * pSymbol,char * pArea, int   length){
+
+  char dummy;
+  OSFUNC * fptr;
+  SHVBLOCK  shv;
+  memset(&shv,0,sizeof(shv));
+  shv. SHVCODE = SHVSYSET; //   symbolic name set
+  shv. SHVNAMA =  pSymbol; // a symbolic name
+  shv. SHVNAML =  strlen(pSymbol); // Len symbolic name
+  shv. SHVVALA = pArea;
+  int l =  length;
+  if (l == 0) l = strlen(pArea);
+  shv. SHVVALL =  l ;
+  int rc,rc3;
+  fptr  =  pEnv-> ENVBLOCK_IRXEXTE -> IRXEXCOM;
+  rc = (*fptr)("IRXEXCOM",
+               &dummy,
+               &dummy,
+               &shv,
+               0   , // indicate envblock not used
+               rc3);
+  int rc2 =  shv.SHVRET;
+  if ( rc != 0 || rc2 != 0|| rc3 != 0)
+  printf("CREXPUT IRXEXCOM rc %i rc3 %i shnvrc %i\n",rc,rc3,rc2);
+  if (rc2   != 0)
+     return   rc2       ;
+  if (rc != 0)
+     return rc;
+   return  0;
+}

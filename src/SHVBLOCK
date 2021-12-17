@@ -1,0 +1,44 @@
+#ifndef  rxSHVBLOCK
+#define  rxSHVBLOCK
+typedef struct SHVBLOCK * SHVBLOCKPtr;
+typedef struct SHVBLOCK {
+    SHVBLOCKPtr   SHVNEXT; //  Chain pointer to next SHVBLOCK
+    int           SHVUSER; //  Used during "FETCH NEXT"
+                           //  Contains length of buffer
+                           //  pointed to by SHVNAMA
+    char          SHVCODE; // Function code - indicates type
+                           // of variable access request
+    char          SHVRET;  // Return code
+    short         res   ;  // reserved - should be zero
+    int           SHVBUFL; // Length of fetch value buffer
+    char        * SHVNAMA;  // Address of variable name
+    int           SHVNAML;  // length  of variable name
+    char        * SHVVALA;  // address of value buffer
+    int           SHVVALL;  // length  of value buffer
+} SHVBLOCK ;
+typedef struct SHVBLOCK * SHVBLOCKPtr;
+const char    SHVFETCH  =     'F';//         Copy value of shared variable
+const char    SHVSTORE  =     'S';//         Set variable from given value
+const char    SHVDROPV  =     'D';//         Drop variable
+const char    SHVSYFET  =     'f';//         Symbolic name retrieve
+const char    SHVSYSET  =     's';//         Symbolic name set
+const char    SHVSYDRO  =     'd';//         Symbolic name drop
+const char    SHVNEXTV  =     'N';//         Fetch "next" variable
+const char    SHVPRIV   =     'P';//         Fetch private information
+//********************************************************************
+//       SHARED VARIABLE REQUEST BLOCK - return codes (SHVRET)       *
+//********************************************************************
+const  char  SHVCLEAN =     0x00;// Execution was OK
+const  char  SHVNEWV   =    0x01;// Variable did not exist
+const  char  SHVLVAR   =    0x02;// Last variable transferred ("N")
+const  char  SHVTRUNC  =    0x04;// Truncation occurred for "Fetch"
+const  char  SHVBADN   =    0x08;// Invalid variable name
+const  char  SHVBADV   =    0x10;// Invalid value specified
+const  char  SHVBADF   =    0x80;// Invalid function code (SHVCODE)
+//********************************************************************
+//       R15 return codes                                            *
+// *******************************************************************
+const int SHVRCOK  =   0;//              Entire Plist chain processed
+const int SHVRCINV =  -1;//              Invalid entry conditions
+const int SHVRCIST =  -2;//              Insufficient storage available
+#endif
