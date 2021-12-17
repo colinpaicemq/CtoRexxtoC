@@ -11,15 +11,17 @@ Some C functions to help use Rexx facilities are available;
     - dropping a variable
     - looping through all available variables
     - returning a parameter back to rexx.
+## The code
 
-
-## Glue code
+### Glue code
 An assembler program is provided to call a C function (CTOREXX).
 The rexx interface has R1 -> 4 unused parameters, the function parameters, the evalblock.   R0 points to the address of the environment block, which has an array of rexx function points, for example get symbol.
 The glue code creates a parameter list so you can use CTOREXX(parameter, evalblock, environment block).
-## Example Rexx code
+### Example Rexx code
+
 CPREXX is a Rexx program which calls the COLIN function, sets up varibles for the function.
-## C high level function CTOREXX
+
+### C high level function CTOREXX
 This is a small program which does the following
 <ol>
   <li>Displays the parameters passed to the function
@@ -36,7 +38,7 @@ This is a small program which does the following
 </ol>
 
 When data is returned, it is null terminated like normal C strings.
-## C worker functions
+### C worker functions
 
 <ul>  
 <li>CREXPUT  include file which implements CRexxPut       
@@ -49,7 +51,7 @@ When data is returned, it is null terminated like normal C strings.
 </li>
 </ul>
 
-## Rexx header files
+### Rexx header files
 
 <ul>
 <li>SHVBLOCK Shared variable access     
@@ -64,10 +66,23 @@ When data is returned, it is null terminated like normal C strings.
 </li>
 </ul>
 
-## JCL
+### JCL
 
 <ul>
-<li>CC is some JCL to assemble the glue code, and compile the CTOREXX C program.  It uses COLIN.C.REXX.OBJ to hold the intermediate Object code, and COLIN.C.REXX.LOAD to hold the COLIN module.
-</li><li>CPARMS are the C compiler parmameters.
+<li>CC is some JCL to do the work.  it uses COLIN.C.REXX.OBJ to hold the intermediate Object code, and COLIN.C.REXX.LOAD to hold the COLIN module, and CPARMS for the C compiler parmameters.
+<ul>
+<li>it assembles the glue code, 
+</li>
+<li>it compile the CTOREXX C program. 
+</li>
+<li>it binds the C program and the glue code to create the COLIN modules 
+</li>
+<li>it runs a sample REXX exec to demonstrate the operation
 </li>
 </ul> 
+
+
+## Usage notes
+<ol>
+<li> Although my variables were called x. ... the Next service returned them as X., in upper case.
+</ul>
